@@ -1,24 +1,47 @@
-<!DOCTYPE html> 
-<html> 
-    <head> 
-        <meta charset="utf-8"> 
-        <title>A-Frame Boilerplate/title> 
-        <meta name="description" content="Hello, World! - A-Frame"> 
-        <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
-    </head> 
-    <body> 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, World! - A-Frame</title>
+    <meta name="description" content="Hello, World! - A-Frame">
+    <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+  </head>
+  <body>
+
 
 <!--The <a-scene> tag wraps every entity in the VR scene-->
-        <a-scene> 
-            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box> 
-            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere> 
-            <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> 
+    <a-scene>
+<!-- Asset Management System-->
+      <a-assets>
+        <img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">
+        <img id="skyTexture" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+        <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+        <audio id="sound" src="./assets/sounds/starwars.mp3"></audio>
+        <a-asset-item id="mclarenf1" src="./assets/models/mclarenF1/model.dae"></a-asset-item>
+      </a-assets>
+
+      <a-box src="#boxTexture" position="0 2 -5" rotation="0 45 45" scale="2 2 2" scale-on-mouseenter="to: 2.2 2.2 2.2">
+        <a-animation attribute="position" to="0 2.2 -5" direction="alternate" dur="2000" repeat="indefinite"></a-animation>
+      </a-box>
+
+      <a-entity id="#mclarenf1" collada-model="#mclarenf1" position="0 -2 0" scale="0.5 0.5 0.5" sound="src: #sound; autoplay: true; volume: 10">
+        <a-animation attribute="position" dur="7000" to="0 -2 3s" direction="alternate" repeat="indefinite"> ></a-animation>
+      </a-entity>
 
 <!-- The <a-sky> tag allows us to set a background of the scene-->
-            <a-sky color="#ECECEC"></a-sky> 
+      <a-sky src="#skyTexture"></a-sky>
+      <!--<a-sky color="#222"></a-sky>-->
 
 <!-- The <a-plane> tag allows us to create a "ground" to stand on.-->
-            <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane> 
-        </a-scene> 
-    </body> 
-</html> 
+<!-- Planes are oriented parallel to the XY axis, so we have to turn it to make it parallel to the ground (XZ)-->
+      <a-plane src="#groundTexture" rotation="-90 0 0" position="0 -2 0" width="30" height="30" repeat="10 10"></a-plane>
+
+<!--The <a-light> tag allows me to change the default lighting of the scene-->
+      <a-light type="ambient" color="#445451"></a-light>
+      <a-light type="point" intensity="2" position="2 4 4"></a-light>
+
+<!-- The <a-camera> tag allows us to change settings on the camera view, and add a cursor as a child-->
+      <a-entity camera look-controls wasd-controls="acceleration: 50; fly: true"></a-entity>
+    </a-scene>
+  </body>
+</html>
